@@ -454,6 +454,14 @@ class WS2812FXT {
 
     void service(void) {
       bool doShow = v1->service() || v2->service();
+
+      /// <<<<< Always call show during transition
+      const unsigned long now = millis();
+      if(now > transitionStartTime && now < transitionStartTime + transitionDuration) {
+        doShow = true;
+      }
+      /// <<<<<
+
       if(doShow) {
         _show();
       }
